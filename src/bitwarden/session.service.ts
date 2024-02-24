@@ -9,8 +9,8 @@ export class SessionService {
   currentSession: string | null = null;
 
   private config = {
-    timeout: 60 * 5,
-    retrys: 1,
+    timeout: 300_000,
+    retrys: 3,
   };
 
   constructor(
@@ -36,10 +36,10 @@ export class SessionService {
 
   resetTimeout() {
     clearTimeout(this.sessionTimeout);
-    this.sessionTimeout = setTimeout(() => this.lock(), 1000 * 60 * 5);
+    this.sessionTimeout = setTimeout(() => this.lock(), this.config.timeout);
   }
 
-  async getSession(reason: string | null): Promise<string | null> {
+  private async getSessionInternal(reason: string | null): Promise<string | null> {
     const confirm = !reason
       ? 'true'
       : await this.guiService.getInput(reason, 'confirm', this.config.timeout);
@@ -70,5 +70,18 @@ export class SessionService {
     this.resetTimeout();
     this.bitService.run(this.currentSession, 'sync');
     return this.currentSession;
+  }
+
+  async getSession(reason: string | null): Promise<string | null> {
+    let retries = this.config.retrys;
+    let session: string | null = null;
+    while (retries-- > 0) {
+      session = await this.getSessionInternal(reason);
+      if (session) return session;
+      if (retries > 0) {
+        this.logService.warn('Retrying session request');
+      }
+    }
+    return null;
   }
 }

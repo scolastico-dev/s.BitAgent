@@ -52,8 +52,8 @@ export class DaemonCommand extends CommandRunner {
     ].join(' '),
     defaultValue: 60 * 15,
   })
-  parseSessionTimeout(timeout: number) {
-    return timeout;
+  parseSessionTimeout(timeout: string) {
+    return Number(timeout);
   }
 
   @Option({
@@ -67,8 +67,8 @@ export class DaemonCommand extends CommandRunner {
     ].join(' '),
     defaultValue: 60 * 5,
   })
-  parseIpcTimeout(timeout: number) {
-    return timeout;
+  parseIpcTimeout(timeout: string) {
+    return Number(timeout);
   }
 
   @Option({
@@ -79,8 +79,8 @@ export class DaemonCommand extends CommandRunner {
     ].join(' '),
     defaultValue: 3,
   })
-  parseAuthRetries(retries: number) {
-    return retries;
+  parseAuthRetries(retries: string) {
+    return Number(retries);
   }
 
   async run(params: string[], options: Record<string, any>) {
@@ -89,7 +89,7 @@ export class DaemonCommand extends CommandRunner {
     if (options.verbose) this.agentService.setLogging(true);
     this.agentService.setTimeout(options.ipcTimeout * 1000);
     this.sessionService.updateConfig({
-      timeout: options.sessionTimeout,
+      timeout: options.sessionTimeout * 1000,
       retrys: options.authRetries,
     });
     this.agentService.start();

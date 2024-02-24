@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import * as Colors from 'colors';
-import fs from 'fs';
+import * as fs from 'fs';
 
 export type MessageType = Array<string | number>;
 
@@ -11,6 +11,11 @@ export class LogService {
   private logToConsole = true;
 
   public setLogToFile(logToFile: string | null) {
+    if (logToFile) {
+      if (!fs.existsSync(logToFile)) {
+        fs.writeFileSync(logToFile, '');
+      }
+    }
     this.logToFile = logToFile;
   }
 

@@ -12,6 +12,7 @@ export class BwCommand extends CommandRunner {
   }
 
   async run(params: string[]) {
+    this.bitwardenService.enableLogging();
     this.bitwardenService.run(null, ...params);
   }
 }
