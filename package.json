@@ -3,7 +3,7 @@
   "version": "IN-DEV",
   "description": "s.BitAgent is a simple Bitwarden CLI wrapper which provides a SSH2 Key Agent solution for Bitwarden.",
   "author": "Joschua Becker EDV <support@scolasti.co>",
-  "private": true,
+  "private": false,
   "license": "GPL-3.0-only",
   "bin": {
     "s-bit-agent": "dist/main.js"
