@@ -1,0 +1,102 @@
+{
+  "name": "s-bit-agent",
+  "version": "IN-DEV",
+  "description": "s.BitAgent is a simple Bitwarden CLI wrapper which provides a SSH2 Key Agent solution for Bitwarden.",
+  "author": "Joschua Becker EDV <support@scolasti.co>",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "bin": {
+    "s-bit-agent": "dist/main.js"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "package.json",
+    "pnpm-lock.yaml"
+  ],
+  "repository": "https://github.com/scolastico-dev/s.BitAgent",
+  "homepage": "https://scolasti.co/go/s-bit-agent",
+  "keywords": [
+    "bitwarden",
+    "sshpk",
+    "ssh-agent",
+    "ssh",
+    "cli",
+    "ipc"
+  ],
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "dev": "REPL=true nest start --watch",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "dependencies": {
+    "@bitwarden/cli": "^2024.2.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "colors": "^1.4.0",
+    "express": "^4.18.2",
+    "inquirer": "^8.2.6",
+    "nest-commander": "^3.12.5",
+    "node-ipc": "^10.1.0",
+    "open": "^9.1.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.1",
+    "sshpk": "^1.18.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.0.0",
+    "@nestjs/schematics": "^10.0.0",
+    "@nestjs/testing": "^10.0.0",
+    "@types/express": "^4.17.17",
+    "@types/inquirer": "^9.0.7",
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.3.1",
+    "@types/node-ipc": "^9.2.3",
+    "@types/sshpk": "^1.17.4",
+    "@types/supertest": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.5.0",
+    "pkg": "^5.8.1",
+    "prettier": "^3.0.0",
+    "source-map-support": "^0.5.21",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.1.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
