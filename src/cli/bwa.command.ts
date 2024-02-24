@@ -25,6 +25,6 @@ export class BwaCommand extends CommandRunner {
     if (!session)
       this.logService.fatal('Session request got rejected. Please try again.');
     this.bitwardenService.enableLogging();
-    this.bitwardenService.run(session, ...params.join(' ').split(' '));
+    this.bitwardenService.run(session, ...params);
   }
 }

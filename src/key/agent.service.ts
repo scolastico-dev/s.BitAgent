@@ -76,7 +76,7 @@ export class AgentService {
         this.client,
         Buffer.from([0, 0, 0, 1, MessageType.SSH_AGENT_FAILURE]),
       );
-    });
+    }, this.timeout);
     try {
       let token: string | null = null;
       switch (messageType) {
@@ -246,6 +246,8 @@ export class AgentService {
         this.client,
         Buffer.from([0, 0, 0, 1, MessageType.SSH_AGENT_FAILURE]),
       );
+    } finally {
+      clearTimeout(timeoutT);
     }
   }
 

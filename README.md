@@ -21,7 +21,7 @@ export SSH_AUTH_SOCK=~/.ssh/s-bit-agent.sock
 
 ```bash
 s-bit-agent --help
-s-bit-agent bw " --help"
-s-bit-agent bwa " --help" # the wrapper will take care about the session creation
+s-bit-agent bw -- --help
+s-bit-agent bwa -- --help # the wrapper will take care about the session creation
 s-bit-agent status
 ```
