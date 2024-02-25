@@ -4,6 +4,7 @@ import { LogService } from 'src/shared/log.service';
 import { KeyService } from 'src/key/key.service';
 import { InquirerService } from 'src/shared/inquirer.service';
 import { BitwardenService } from 'src/bitwarden/bitwarden.service';
+import { AgentService } from 'src/key/agent.service';
 import {
   BitwardenItemType,
   BitwardenKeyCreateItem,
@@ -21,6 +22,7 @@ export class ImportCommand extends CommandRunner {
     private readonly keyService: KeyService,
     private readonly inquirerService: InquirerService,
     private readonly bitService: BitwardenService,
+    private readonly agentService: AgentService,
   ) {
     super();
   }
@@ -44,11 +46,8 @@ export class ImportCommand extends CommandRunner {
     }
     this.logService.info('Read private key:', '***');
     this.logService.info('Read public key:', publicKey);
-    const password = await this.inquirerService.password(
-      'Please enter your Bitwarden master password:',
-    );
-    const token = this.bitService.unlock(password);
-    this.logService.info('Unlocked the vault...');
+    const session = await this.agentService.requestSession('Importing new private key');
+    if (!session) this.logService.fatal('No session available');
     const data = new BitwardenKeyCreateItem();
     data.name = params[1];
     data.notes = publicKey;
@@ -62,10 +61,7 @@ export class ImportCommand extends CommandRunner {
         type: BitwardenItemType.PASSWORD,
       },
     ];
-    this.bitService.create(data, token);
-    this.logService.info('Created new item in the vault...');
-    this.bitService.lock(token);
-    this.logService.info('Locked the vault...');
+    this.bitService.create(data, session);
     this.logService.info('Created new private key in the vault!');
   }
 }

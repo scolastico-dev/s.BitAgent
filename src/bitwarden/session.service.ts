@@ -5,15 +5,15 @@ import { GuiService } from 'src/gui/gui.service';
 
 @Injectable()
 export class SessionService {
-  sessionTimeout: NodeJS.Timeout | null = null;
-  currentSession: string | null = null;
+  private sessionTimeout: NodeJS.Timeout | null = null;
+  private currentSession: string | null = null;
 
   private config = {
     timeout: 300_000,
     retrys: 3,
   };
 
-  constructor(
+  constructor (
     private readonly bitService: BitwardenService,
     private readonly logService: LogService,
     private readonly guiService: GuiService,

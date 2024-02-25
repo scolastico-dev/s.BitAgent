@@ -3,6 +3,7 @@ import { LogService } from 'src/shared/log.service';
 import { BitwardenService } from 'src/bitwarden/bitwarden.service';
 import { GuiService } from 'src/gui/gui.service';
 import { SessionService } from 'src/bitwarden/session.service';
+import { CacheService } from 'src/bitwarden/cache.service';
 
 import IPC from 'node-ipc';
 
@@ -40,6 +41,7 @@ export class AgentService {
     private readonly bitService: BitwardenService,
     private readonly guiService: GuiService,
     private readonly sessionService: SessionService,
+    private readonly cacheService: CacheService,
   ) {
     IPC.config.id = this.socketId;
     IPC.config.retry = 1500;
@@ -85,7 +87,7 @@ export class AgentService {
           token = await this.sessionService.getSession(null);
           if (timouted) return;
           if (!token) throw new Error('Session not approved');
-          const items = this.bitService.getKeyItems(token);
+          const items = await this.cacheService.getCacheWithToken(token);
           if (timouted) return;
           this.logService.info('Received', items.length, 'items');
 
@@ -164,7 +166,7 @@ export class AgentService {
           token = await this.sessionService.getSession(null);
           if (timouted) return;
           if (!token) throw new Error('Session not approved');
-          const item = this.bitService.getKeyItems(token).find((item) => {
+          const item = (await this.cacheService.getCacheWithToken(token)).find((item) => {
             const raw = item.fields.find(
               (field) => field.name === 'public-key',
             );

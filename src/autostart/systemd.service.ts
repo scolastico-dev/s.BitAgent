@@ -40,6 +40,7 @@ export class SystemdAutostartService implements AutostartService {
       child_process.execSync(
         `systemctl --user enable ${this.COMMAND_MARKER}.service`,
       );
+      child_process.execSync(`systemctl --user start ${this.COMMAND_MARKER}.service`);
       return true;
     } catch (error) {
       console.error('Installation error:', error);
@@ -49,6 +50,7 @@ export class SystemdAutostartService implements AutostartService {
 
   async uninstall(): Promise<boolean> {
     try {
+      child_process.execSync(`systemctl --user stop ${this.COMMAND_MARKER}.service`);
       child_process.execSync(
         `systemctl --user disable ${this.COMMAND_MARKER}.service`,
       );

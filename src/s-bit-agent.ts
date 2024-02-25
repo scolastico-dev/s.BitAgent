@@ -20,7 +20,7 @@ let onHunt = false;
     setTimeout(() => {
       console.error('Timeout reached, forcefully killed by system');
       process.exit(1);
-    }, 30_000);
+    }, 10_000);
   });
 });
 
@@ -30,6 +30,10 @@ async function bootstrap() {
     replServer.setupHistory('.repl_history', (err) => {
       if (err) console.error(err);
     });
-  } else await CommandFactory.run(AppModule, ['warn', 'error']);
+  } else await CommandFactory.run(AppModule, {
+    cliName: 's-bit-agent',
+    version: 'IN-DEV',
+    logger: ['warn', 'error'],
+  });
 }
 bootstrap();

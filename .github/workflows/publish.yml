@@ -23,8 +23,12 @@ jobs:
         run: pnpm build
       - name: Replace version in package.json to be semver compatible
         run: sed -i "s/IN-DEV/$(echo $GITHUB_REF | sed 's/refs\/tags\///')/" package.json 
+      - name: Replace version also inside s-bit-agent.js
+        run: sed -i "s/IN-DEV/$(echo $GITHUB_REF | sed 's/refs\/tags\///')/" dist/s-bit-agent.js
+      - name: Last but not least, replace version in status.command.js
+        run: sed -i "s/IN-DEV/$(echo $GITHUB_REF | sed 's/refs\/tags\///')/" dist/cli/status.command.js
       - name: Add shebang
-        run: sed -i '1s;^;#!/usr/bin/env node\n;' dist/main.js
+        run: sed -i '1s;^;#!/usr/bin/env node\n;' dist/s-bit-agent.js
       - name: Publish package on NPM
         run: pnpm publish . --access public --no-git-checks
         env:
