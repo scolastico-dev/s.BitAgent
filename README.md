@@ -14,6 +14,13 @@ s-bit-agent -- bw lock <token from login>
 ```
 
 Run `s-bit-agent daemon` in autostart.
+
+```bash
+s-bit-agent setup # shows which automatic autostart installation is possible
+s-bit-agent daemon --help # See possible config options for the daemon
+s-bit-agent setup --type SystemdAutostartService --args "--session-timeout 900" # for example
+```
+
 Add the socket to your `.bashrc` or `.profile`:
 ```bash
 export SSH_AUTH_SOCK=~/.ssh/s-bit-agent.sock
@@ -52,6 +59,7 @@ Received session
 - [X] Implement S_BIT_AGENT_REQUEST_SESSION into IPC
 - [X] Add a `bw` and `bwa` command
 - [X] Add a `setup` command to automatically install the daemon in the autostart
+- [ ] Handle detection of dead pipes and automatic removal of them
 - [ ] Look into the secure heap implementation possibilitys
 - [ ] Add a `lock` command
 - [ ] Add setting to disable approval requests, or at least to set a timeout
