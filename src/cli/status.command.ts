@@ -1,9 +1,4 @@
-import {
-  Command,
-  CommandRunner,
-  Option,
-  OptionChoiceFor,
-} from 'nest-commander';
+import { Command, CommandRunner } from 'nest-commander';
 import { LogService } from 'src/shared/log.service';
 import * as Colors from 'colors';
 import { AgentService } from 'src/key/agent.service';
@@ -22,7 +17,7 @@ export class StatusCommand extends CommandRunner {
     super();
   }
 
-  async run(params: string[], options: Record<string, any>) {
+  async run() {
     this.logService.info(`s.BitAgent - Version: IN-DEV`);
     this.logService.info('Copyright 2024 - Joschua Becker EDV');
     this.logService.log('-----------------------------------');

@@ -166,14 +166,16 @@ export class AgentService {
           token = await this.sessionService.getSession(null);
           if (timouted) return;
           if (!token) throw new Error('Session not approved');
-          const item = (await this.cacheService.getCacheWithToken(token)).find((item) => {
-            const raw = item.fields.find(
-              (field) => field.name === 'public-key',
-            );
-            if (!raw) return false;
-            const pub = SshPK.parseKey(raw.value, 'auto');
-            return pub.toBuffer('rfc4253').equals(keyBlob);
-          });
+          const item = (await this.cacheService.getCacheWithToken(token)).find(
+            (item) => {
+              const raw = item.fields.find(
+                (field) => field.name === 'public-key',
+              );
+              if (!raw) return false;
+              const pub = SshPK.parseKey(raw.value, 'auto');
+              return pub.toBuffer('rfc4253').equals(keyBlob);
+            },
+          );
           if (!item) throw new Error('Key not found');
 
           const approval = await this.guiService.getInput(
@@ -279,7 +281,7 @@ export class AgentService {
       IPC.server.on('data', (buffer) => {
         this.handle(buffer);
       });
-      IPC.server.on('socket.disconnected', (socket) => {
+      IPC.server.on('socket.disconnected', () => {
         this.logService.info('Client disconnected');
       });
       IPC.server.on('connect', (socket) => {
@@ -309,7 +311,7 @@ export class AgentService {
     this.logService.info('Requesting session');
     return await new Promise((resolve) => {
       IPC.connectTo('client', this.file, () => {
-        IPC.of.client.on('connect', (socket) => {
+        IPC.of.client.on('connect', () => {
           this.logService.info('Connected to server');
           const size = Buffer.alloc(4);
           const buff = Buffer.concat([

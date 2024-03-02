@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
+/**
+ * @deprecated Use gui module instead
+ */
 @Injectable()
 export class InquirerService {
   async password(message: string): Promise<string> {

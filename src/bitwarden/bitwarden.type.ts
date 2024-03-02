@@ -23,7 +23,7 @@ export class BitwardenItemBase {
   notes: string;
   fields: BitwardenItemField[];
   type: number;
-  object: 'item' = 'item';
+  readonly object = 'item';
   reprompt: 0 | 1 = 0;
   favorite: boolean = false;
   card?: any = null;
@@ -33,7 +33,7 @@ export class BitwardenItemBase {
 }
 
 export class BitwardenKeyItem extends BitwardenItemBase {
-  type: 2 = 2;
+  readonly type = 2;
   fields: [
     { name: 'custom-type'; value: 'ssh-key'; type: BitwardenItemType.STRING },
     { name: 'public-key'; value: string; type: BitwardenItemType.STRING },

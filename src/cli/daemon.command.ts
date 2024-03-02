@@ -92,6 +92,13 @@ export class DaemonCommand extends CommandRunner {
       timeout: options.sessionTimeout * 1000,
       retrys: options.authRetries,
     });
-    this.agentService.start();
+    const restart = () => {
+      // guess to fix a bug where sometimes the daemon just stops working
+      this.logService.log('Restarting daemon...'); // TODO: check if this works, and implement a check to prevent restarts while the daemon is used.
+      this.agentService.stop();
+      this.agentService.start();
+      setTimeout(restart, 1000 * 60 * 60 * 3);
+    };
+    restart();
   }
 }

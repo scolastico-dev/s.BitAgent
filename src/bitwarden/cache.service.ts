@@ -20,8 +20,8 @@ export class CacheService {
   private resetTimeout() {
     if (this.scheduler) clearTimeout(this.scheduler);
     this.scheduler = setTimeout(() => {
-        this.scheduler = null;
-        this.cache = [];
+      this.scheduler = null;
+      this.cache = [];
     }, this.timeout);
   }
 
@@ -29,18 +29,21 @@ export class CacheService {
     return this.cache.length && Date.now() - this.lastRefill < this.timeout;
   }
 
-  private async getCacheInternal(reason: string | null, token: string | null): Promise<BitwardenKeyItem[]> {
+  private async getCacheInternal(
+    reason: string | null,
+    token: string | null,
+  ): Promise<BitwardenKeyItem[]> {
     this.resetTimeout();
     if (!this.isCacheValid()) {
-        this.logService.info('Refilling cache');
-        const sess = token ? token : await this.sessionService.getSession(reason);
-        this.cache = this.bitService.getKeyItems(sess);
-        this.lastRefill = Date.now();
+      this.logService.info('Refilling cache');
+      const sess = token ? token : await this.sessionService.getSession(reason);
+      this.cache = this.bitService.getKeyItems(sess);
+      this.lastRefill = Date.now();
     }
     return this.cache;
   }
 
-  getCache(reason: string|null): Promise<BitwardenKeyItem[]> {
+  getCache(reason: string | null): Promise<BitwardenKeyItem[]> {
     return this.getCacheInternal(reason, null);
   }
 

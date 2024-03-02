@@ -1,6 +1,7 @@
 export interface AutostartService {
   name: string; // Human-readable name for user display
-  canActivate(): boolean;
-  install(command: string): Promise<boolean>;
-  uninstall(): Promise<boolean>;
+  canActivate(): Promise<boolean>;
+  install(command: string, name: string, marker: string): Promise<boolean>;
+  uninstall(marker: string): Promise<boolean>;
+  isInstalled(marker: string): Promise<boolean>;
 }

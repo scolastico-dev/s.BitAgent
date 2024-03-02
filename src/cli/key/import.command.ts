@@ -1,4 +1,4 @@
-import { Command, CommandRunner } from 'nest-commander';
+import { SubCommand, CommandRunner } from 'nest-commander';
 import { existsSync, readFileSync } from 'fs';
 import { LogService } from 'src/shared/log.service';
 import { KeyService } from 'src/key/key.service';
@@ -8,10 +8,9 @@ import { AgentService } from 'src/key/agent.service';
 import {
   BitwardenItemType,
   BitwardenKeyCreateItem,
-  BitwardenKeyItem,
 } from 'src/bitwarden/bitwarden.type';
 
-@Command({
+@SubCommand({
   name: 'import',
   arguments: '<file> <name>',
   description: 'Import a private key into the vault',
@@ -46,7 +45,9 @@ export class ImportCommand extends CommandRunner {
     }
     this.logService.info('Read private key:', '***');
     this.logService.info('Read public key:', publicKey);
-    const session = await this.agentService.requestSession('Importing new private key');
+    const session = await this.agentService.requestSession(
+      'Importing new private key',
+    );
     if (!session) this.logService.fatal('No session available');
     const data = new BitwardenKeyCreateItem();
     data.name = params[1];

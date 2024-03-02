@@ -1,5 +1,5 @@
 import {
-  Command,
+  SubCommand,
   CommandRunner,
   Option,
   OptionChoiceFor,
@@ -13,7 +13,7 @@ import {
   BitwardenKeyCreateItem,
 } from 'src/bitwarden/bitwarden.type';
 
-@Command({
+@SubCommand({
   name: 'new',
   arguments: '<name>',
   description: 'Generate a new key pair and import it into the vault',
@@ -60,7 +60,9 @@ export class NewCommand extends CommandRunner {
     this.logService.info('Generated private key:', '***');
     const publicKey = this.keyService.generatePublicKey(privateKey, params[0]);
     this.logService.info('Generated public key:', publicKey);
-    const session = await this.agentService.requestSession('Generate new private key');
+    const session = await this.agentService.requestSession(
+      'Generate new private key',
+    );
     if (!session) this.logService.fatal('No session available');
     const data = new BitwardenKeyCreateItem();
     data.name = params[0];

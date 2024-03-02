@@ -1,45 +1,67 @@
 import { Injectable } from '@nestjs/common';
-import * as child_process from 'child_process';
 import { AutostartService } from './autostart.interface';
+import * as child_process from 'child_process';
 
 @Injectable()
 export class CronAutostartService implements AutostartService {
-  name = 'Cron';
-  readonly COMMAND_MARKER = 's-bit-agent';
+  name = 'Cron Autostart';
 
-  canActivate(): boolean {
+  async canActivate(): Promise<boolean> {
+    return child_process.spawnSync('which', ['crontab']).status === 0;
+  }
+
+  async install(
+    command: string,
+    name: string,
+    marker: string,
+  ): Promise<boolean> {
     try {
-      child_process.execSync('crontab -l');
+      // Get existing crontab
+      const currentCrontab = child_process.execSync('crontab -l').toString();
+
+      // Check if entry already exists (avoid duplicates)
+      if (currentCrontab.includes(marker)) {
+        console.warn('Autostart entry already exists in crontab');
+        return false;
+      }
+
+      // Append the new entry with the marker
+      const newCrontab =
+        currentCrontab + `@reboot ${command} > /dev/null 2>&1 # ${marker}\n`;
+      child_process.execSync(`echo "${newCrontab}" | crontab -`);
+
       return true;
     } catch (error) {
+      console.error('Error installing cron autostart:', error);
       return false;
     }
   }
 
-  async install(command: string): Promise<boolean> {
+  async uninstall(marker: string): Promise<boolean> {
     try {
-      const modifiedCommand = `${command} # ${this.COMMAND_MARKER}`;
-      child_process.execSync(
-        `(crontab -l; echo "@reboot ${modifiedCommand}") | crontab -`,
-      );
-      return true;
-    } catch (error) {
-      console.error('Cron install error:', error);
-      return false;
-    }
-  }
+      const currentCrontab = child_process.execSync('crontab -l').toString();
 
-  async uninstall(): Promise<boolean> {
-    try {
-      let crontabContents = child_process.execSync('crontab -l').toString();
-      crontabContents = crontabContents
+      // Remove lines containing the marker
+      const newCrontab = currentCrontab
         .split('\n')
-        .filter((line) => !line.includes(this.COMMAND_MARKER))
+        .filter((line) => !line.includes(marker))
         .join('\n');
-      child_process.execSync(`echo "${crontabContents}" | crontab -`);
+
+      child_process.execSync(`echo "${newCrontab}" | crontab -`);
+
       return true;
     } catch (error) {
-      console.error('Cron uninstall error:', error);
+      console.error('Error uninstalling cron autostart:', error);
+      return false;
+    }
+  }
+
+  async isInstalled(marker: string): Promise<boolean> {
+    try {
+      const currentCrontab = child_process.execSync('crontab -l').toString();
+      return currentCrontab.includes(marker);
+    } catch (error) {
+      console.error('Error checking if cron autostart is installed:', error);
       return false;
     }
   }

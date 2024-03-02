@@ -13,7 +13,7 @@ export class SessionService {
     retrys: 3,
   };
 
-  constructor (
+  constructor(
     private readonly bitService: BitwardenService,
     private readonly logService: LogService,
     private readonly guiService: GuiService,
@@ -39,7 +39,9 @@ export class SessionService {
     this.sessionTimeout = setTimeout(() => this.lock(), this.config.timeout);
   }
 
-  private async getSessionInternal(reason: string | null): Promise<string | null> {
+  private async getSessionInternal(
+    reason: string | null,
+  ): Promise<string | null> {
     const confirm = !reason
       ? 'true'
       : await this.guiService.getInput(reason, 'confirm', this.config.timeout);

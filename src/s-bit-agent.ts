@@ -30,10 +30,11 @@ async function bootstrap() {
     replServer.setupHistory('.repl_history', (err) => {
       if (err) console.error(err);
     });
-  } else await CommandFactory.run(AppModule, {
-    cliName: 's-bit-agent',
-    version: 'IN-DEV',
-    logger: ['warn', 'error'],
-  });
+  } else
+    await CommandFactory.run(AppModule, {
+      cliName: 's-bit-agent',
+      version: 'IN-DEV',
+      logger: ['warn', 'error'],
+    });
 }
 bootstrap();

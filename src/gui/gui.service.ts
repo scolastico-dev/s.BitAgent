@@ -20,7 +20,7 @@ export class GuiService {
   async getInput(
     message: string,
     type: 'password' | 'text' | 'confirm' = 'text',
-    timeout: number = 300,
+    timeout: number = 300, // TODO: Implement timeout
   ): Promise<string> {
     const express = await import('express');
     const app = (express as any)();
