@@ -70,5 +70,16 @@ Received session
 - [ ] Add a `key export` command
 - [ ] Expand the S_BIT_AGENT_REQUEST_SESSION to also handle some other requests
 - [ ] Add tests
+- [ ] [Maybe™] Test or add support for windows.
 - [ ] [Maybe™] Develop a Tauri frontend/client, which internally uses the `s-bit-agent` to communicate with the server.
 - [ ] [Maybe™] Add capability to unlock the agent through bitwarden remote approval
+
+## Windows Support
+
+Theoretically, the agent should work on windows, but it is not tested.
+If you want to help, please open an issue. If you encounter any problems,
+try to use wsl, that should work.
+
+Also if you do not use wsl, you will need to manually register the agent in
+the autostart. Lastly as a tipp: you can modify the pipe name the daemon
+creates, by passing the `SSH_AUTH_SOCK` environment variable to the daemon.
