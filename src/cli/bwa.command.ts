@@ -1,6 +1,6 @@
 import { Command, CommandRunner } from 'nest-commander';
 import { BitwardenService } from 'src/bitwarden/bitwarden.service';
-import { AgentService } from 'src/key/agent.service';
+import { ClientService } from 'src/icp/client.service';
 import { LogService } from 'src/shared/log.service';
 
 @Command({
@@ -12,14 +12,14 @@ import { LogService } from 'src/shared/log.service';
 export class BwaCommand extends CommandRunner {
   constructor(
     private readonly bitwardenService: BitwardenService,
-    private readonly agentService: AgentService,
+    private readonly clientService: ClientService,
     private readonly logService: LogService,
   ) {
     super();
   }
 
   async run(params: string[]) {
-    const session = await this.agentService.requestSession(
+    const session = await this.clientService.requestSession(
       'Bitwarden CLI Passthrough',
     );
     if (!session)

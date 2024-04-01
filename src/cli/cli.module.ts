@@ -8,9 +8,10 @@ import { DaemonCommand } from './daemon.command';
 import { StatusCommand } from './status.command';
 import { SetupCommand } from './setup.command';
 import { LicenseCommand } from './license.command';
+import { CacheModule } from './cache/cache.module';
 
 @Module({
-  imports: [KeyModule],
+  imports: [KeyModule, CacheModule],
   providers: [
     BwCommand,
     BwaCommand,

@@ -59,20 +59,22 @@ Received session
 - [X] Implement S_BIT_AGENT_REQUEST_SESSION into IPC
 - [X] Add a `bw` and `bwa` command
 - [X] Add a `setup` command to automatically install the daemon in the autostart
-- [ ] Handle detection of dead pipes and automatic removal of them
+- [X] Expand the S_BIT_AGENT_REQUEST_SESSION to also handle some other requests
+- [X] Add a public key local cache to speed up the key lookup, and reduce the password requests
+- [X] Handle detection of dead pipes and automatic removal of them
+- [X] Support for multiple IPC connections at once
 - [ ] Look into the secure heap implementation possibilitys
 - [ ] Add a `lock` command
 - [ ] Add setting to disable approval requests, or at least to set a timeout
-- [ ] Fix issue that the agent sometimes stops responding
 - [ ] Add a `key list` command
 - [ ] Add a `key delete` command
 - [ ] Add a `key rename` command
 - [ ] Add a `key export` command
-- [ ] Expand the S_BIT_AGENT_REQUEST_SESSION to also handle some other requests
 - [ ] Add tests
 - [ ] [Maybe™] Test or add support for windows.
 - [ ] [Maybe™] Develop a Tauri frontend/client, which internally uses the `s-bit-agent` to communicate with the server.
 - [ ] [Maybe™] Add capability to unlock the agent through bitwarden remote approval
+- [ ] [Maybe™] Add capability to unlock the agent through webauthn
 
 ## Windows Support
 

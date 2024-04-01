@@ -11,9 +11,8 @@ import {
 } from 'src/bitwarden/bitwarden.type';
 
 @SubCommand({
-  name: 'import',
-  arguments: '<file> <name>',
-  description: 'Import a private key into the vault',
+  name: 'list',
+  description: 'List all available keys',
 })
 export class ImportCommand extends CommandRunner {
   constructor(

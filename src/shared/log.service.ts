@@ -9,6 +9,11 @@ export type MessageType = Array<string | number>;
 export class LogService {
   private logToFile: string | null = null;
   private logToConsole = true;
+  private prefix = '';
+
+  public setPrefix(prefix: string) {
+    this.prefix = prefix + ' ';
+  }
 
   public setLogToFile(logToFile: string | null) {
     if (logToFile) {
@@ -36,7 +41,8 @@ export class LogService {
     this.save(message);
     if (!this.logToConsole) return;
     console.log(
-      message.length === 2
+      Colors.cyan(this.prefix) +
+      (message.length === 2
         ? textColor(message[0].toString()) +
             ' ' +
             numberColor(message[1].toString())
@@ -47,7 +53,7 @@ export class LogService {
               }
               return textColor(part);
             })
-            .join(' '),
+            .join(' '))
     );
   }
 

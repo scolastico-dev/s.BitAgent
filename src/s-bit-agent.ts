@@ -20,7 +20,7 @@ let onHunt = false;
     setTimeout(() => {
       console.error('Timeout reached, forcefully killed by system');
       process.exit(1);
-    }, 10_000);
+    }, 2_500);
   });
 });
 

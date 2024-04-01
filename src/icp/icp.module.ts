@@ -1,9 +1,9 @@
 import { Global, Module } from '@nestjs/common';
-import { KeyService } from './key.service';
 import { AgentService } from './agent.service';
+import { ClientService } from './client.service';
 
-const providers = [KeyService, AgentService];
+const providers = [AgentService, ClientService];
 
 @Global()
 @Module({ providers, exports: providers })
-export class KeyModule {}
+export class ICPModule {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { LogService } from '../shared/log.service';
+import { LogService } from './log.service';
 
 import * as SshPK from 'sshpk';
 import * as Crypto from 'crypto';

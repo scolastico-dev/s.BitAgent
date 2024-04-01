@@ -1,7 +1,7 @@
 import { Command, CommandRunner } from 'nest-commander';
 import { LogService } from 'src/shared/log.service';
 import * as Colors from 'colors';
-import { AgentService } from 'src/key/agent.service';
+import { AgentService } from 'src/icp/agent.service';
 import { existsSync } from 'fs';
 import { spawnSync } from 'child_process';
 

@@ -5,9 +5,9 @@ import {
   OptionChoiceFor,
 } from 'nest-commander';
 import { LogService } from 'src/shared/log.service';
-import { KeyService, SUPPORTED_MODULI } from 'src/key/key.service';
+import { KeyService, SUPPORTED_MODULI } from 'src/shared/key.service';
 import { BitwardenService } from 'src/bitwarden/bitwarden.service';
-import { AgentService } from 'src/key/agent.service';
+import { ClientService } from 'src/icp/client.service';
 import {
   BitwardenItemType,
   BitwardenKeyCreateItem,
@@ -23,7 +23,7 @@ export class NewCommand extends CommandRunner {
     private readonly logService: LogService,
     private readonly keyService: KeyService,
     private readonly bitService: BitwardenService,
-    private readonly agentService: AgentService,
+    private readonly clientService: ClientService,
   ) {
     super();
   }
@@ -60,7 +60,7 @@ export class NewCommand extends CommandRunner {
     this.logService.info('Generated private key:', '***');
     const publicKey = this.keyService.generatePublicKey(privateKey, params[0]);
     this.logService.info('Generated public key:', publicKey);
-    const session = await this.agentService.requestSession(
+    const session = await this.clientService.requestSession(
       'Generate new private key',
     );
     if (!session) this.logService.fatal('No session available');
